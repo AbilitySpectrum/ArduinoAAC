@@ -14,6 +14,6 @@ Two classes are provided
 
 * AnalogSensor
 
-
+Further explanation [here](http://abilityspectrum.wordpress.com/2014/07/23/light-sensor-as-multi-level-switch/).
 
 ### AACL3G4mouse

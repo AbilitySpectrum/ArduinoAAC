@@ -37,7 +37,10 @@ class Switch
     Switch(int, int, int);  // args: in_pin; scale; debug
 
     void Check();
+    void loop();
     void On( int );
+    void Times( int );
+    void setPin( int );
 
   private:
     int _switchPin;    

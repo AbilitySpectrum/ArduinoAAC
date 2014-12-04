@@ -1,5 +1,5 @@
 /*
- * ASshort_longDigital v5
+ * ASshort_longDigital v5b.1
  
  Pro Micro for V using DIGITAL sensor
  
@@ -42,17 +42,17 @@
 #include <AACswitch.h>
 
 const int testing = 0; // set this to 0 for final version
-const int CapTouch = 1; // set this to 1 if for capacitive touch sensor
+const int CapTouch = 0; // set this to 1 if for capacitive touch sensor
 
 //digital param
 
-const int pinIn=7;  // digital sensor 7 or A0 ++++
+const int pinIn=A0;  // digital sensor 7 or A0 ++++
 const int pinControl = A3;   // select = 5 or A3
 Switch control( pinControl, 100, 1 );
 
-Switch buzzer( 4, 40, 1 ); // USED buzzer = 4 or A2 +++++
+Switch buzzer( 6, 40, 1 ); // USED buzzer = 4 or A2 +++++
 Switch relay( A4, 200, 0);  // relay = 2 or A4
-SerialBuzzer serialBuzzer( 3, testing ); // pin, debug  // NOT USED
+SerialBuzzer serialBuzzer( A2, testing ); // pin 3, debug  // NOT USED
 
 /*
 const int pinIn=7;  // digital sensor 7

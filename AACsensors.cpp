@@ -79,13 +79,31 @@ DigitalSensor::DigitalSensor(int pin, int ref=500, int normalhigh=0, int debug=0
   pinMode(pin,INPUT);
 }
 
+void DigitalSensor::setNormalHigh ( int normalhigh = 0 ) {
+  _normalhigh = normalhigh;
+  /* ylh
+  if (_normalhigh == 0 ) {
+    pinMode(_sensorPin, INPUT);
+  } else {
+    pinMode(_sensorPin, INPUT_PULLUP);
+  }
+  digitalWrite( _sensorPin, _normalhigh );
+  */
+}
+
+void DigitalSensor::setPin( int p ) {
+  _sensorPin = p;
+    pinMode(_sensorPin, INPUT);
+  // setNormalHigh( _normalhigh );
+}
+
 int DigitalSensor::Read() {
   int x;
   x=digitalRead(_sensorPin);
   if(_debug) {Serial.print("Pin "); Serial.print(_sensorPin); Serial.print(" = "); Serial.println(x); }
 
   if( (millis() - _lastDetected) < _refractory ) {
-    return _normalhigh;   // force read of 0 if within refractroy period
+    return 0;  // force read of 0 if within refractroy period
   }
   if( x==_normalhigh ) {
     return 0;
@@ -122,6 +140,29 @@ void AnalogSensor::Reset() {
   Level(2);
 }
 
+void AnalogSensor::setPin ( int p ) {
+  _sensorPin = p;
+  /* ylh
+  if (_atRest == 0 ) {
+    pinMode(_sensorPin, INPUT);
+  } else {
+    pinMode(_sensorPin, INPUT_PULLUP);
+  }
+  */
+}
+void AnalogSensor::setNormalHigh ( int normalhigh = 0 ) {
+  _atRest= normalhigh;
+  heldLevel = _atRest;
+  /*
+  if (_atRest == 0 ) {
+    pinMode(_sensorPin, INPUT);
+  } else {
+    pinMode(_sensorPin, INPUT_PULLUP);
+  }
+  //  ???? digitalWrite( _sensorPin, _atRest );
+  */
+}
+
 int AnalogSensor::Read() {
 
    sensorValue = analogRead(_sensorPin);
@@ -150,7 +191,7 @@ int AnalogSensor::Level(int level) {
    return heldLevel;   // return last value if within refractroy period
   }
 
-   if( level<0 || level >10 ) level = 3;
+   if( level<0 || level >4 ) level = 4; // not practical beyond 3 levels
    x=map( sensorValue, minima, maxima, 0, level);
    x=constrain( x, 0, level-1);  // throw away the high anchor
 

@@ -56,6 +56,8 @@ class DigitalSensor
   public:
     DigitalSensor(int,int,int,int); // debug
     int Read(void);
+    void setNormalHigh( int );
+    void setPin ( int );
   private:
     unsigned long _lastDetected;
     int _sensorPin;
@@ -69,11 +71,14 @@ class AnalogSensor
 {
   public:
     AnalogSensor(int, int, int, int);
+    void setNormalHigh( int );
     int Read();
     int Level(int); // number of levels differentiated: 2 or more
     void Reset();
     void Dump();
+    void setPin ( int );
   private:
+    int _normalhigh;
     int _Level3(), _Level4(); // old code for 3 or 4 level differentiation
     int minima, maxima;
     int sensorValue;

@@ -38,6 +38,10 @@ Switch::Switch( int out_pin, int period=200, int debug=0) {
   pinMode(_switchPin,OUTPUT);
 }
 
+void Switch::setPin( int p ) {
+  _switchPin = p;
+  pinMode(_switchPin, OUTPUT);
+}
 
 void Switch::On( int period  = 0 ) {
   if( period == 0 )
@@ -51,12 +55,36 @@ void Switch::On( int period  = 0 ) {
   if(_debug) digitalWrite(13, HIGH);
 }
 
+void Switch::Times( int times = 1 ) {
+  _switched = times * 2 - 1; // double it for on and off
+  _period = 30;
+  digitalWrite( _switchPin, HIGH);
+  _lastSwitched = millis();
+
+}
+void Switch::loop() { Check(); }
+
 void Switch::Check() {
+   if( _switched && (millis()- _lastSwitched ) > _period ) {
+     if( _switched%2 ) {
+       digitalWrite( _switchPin, LOW);
+       if(_debug) digitalWrite(13, LOW);
+       _period = 150;
+     } else {
+       digitalWrite( _switchPin, HIGH);
+       if(_debug) digitalWrite(13, HIGH);
+       _period = 10;
+     }
+     _switched--;
+     _lastSwitched = millis();
+   }
+  /*
    if( _switched && (millis()- _lastSwitched ) > _period ) {
      _switched=0;
      digitalWrite( _switchPin, LOW);
      if(_debug) digitalWrite(13, LOW);
    }
+   */
 }
 
 SerialBuzzer::SerialBuzzer( int out_pin, int debug=0) {
